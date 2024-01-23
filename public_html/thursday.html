@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadata, including character set and viewport settings -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Title of the webpage -->
+    <title>Harris Goldstein's Stories</title>
+    
+    <!-- Internal CSS styles for styling the page -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #444;
+            padding: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        section {
+            display: none; /* Hide all sections by default */
+            padding: 20px;
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%; /* Make sure images don't exceed their natural size */
+            margin: 10px; /* Add some margin around each image */
+        }
+
+        /* Additional styles for Conjuror images */
+        #conjuror-images {
+            text-align: center;
+        }
+
+        #conjuror-images img {
+            width: 37%; /* Adjust the width based on your preference */
+            margin: 10px auto; /* Center images */
+            display: block;
+        }
+
+        /* Additional styles for Chimera images */
+        #chimera-images {
+            text-align: center;
+        }
+
+        #chimera-images img {
+            width: 28%; /* Adjust the width based on your preference */
+            margin: 10px auto; /* Center images */
+            display: block;
+        }
+
+        /* Additional styles for Chimera PDF link */
+        #chimera-pdf {
+            text-align: center;
+            margin-top: 20px; /* Add some margin above the PDF link */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header section with the website name -->
+    <header>
+        <h1>My Stories</h1>
+    </header>
+
+    <!-- Navigation bar with links to different sections of the page -->
+    <nav>
+        <a href="#" onclick="showSection('home')">Home</a>
+        <a href="#" onclick="showSection('inner-demons')">Inner Demons</a>
+        <a href="#" onclick="showSection('chimera')">Chimera</a>
+        <a href="#" onclick="showSection('the-conjuror')">The Conjuror</a>
+        <a href="#" onclick="showSection('psychopomp')">Psychopomp</a>
+        <a href="#" onclick="showSection('shadow')">Shadow</a>
+    </nav>
+
+    <!-- Main content sections -->
+
+    <section id="home">
+        <!-- Content for the Home page -->
+        <h2>Hello, My name is Harris Goldstein.</h2>
+        <p>One of my biggest passions is storytelling, so I have compiled some of the stories I have created over the years for anyone to view and enjoy.</p>
+    </section>
+
+    <section id="inner-demons">
+        <h2>Inner Demons</h2>
+        <p>Inner Demons is a story of a woman attempting to deal with trauma and adjust to life after it has been fundamentally changed in the span of a single night.</p>
+
+        <!-- Link to the PDF file -->
+        <embed src="Inner Demons.pdf" type="application/pdf" width="80%" height="500px" />
+    </section>
+
+    <section id="chimera">
+        <h2>Chimera</h2>
+
+        <!-- Description for Chimera -->
+        <p>Chimera is one of my darker stories following Vlad Petros, a former soldier who agrees to become a government lab rat in exchange for his sister's safety: however, when the experiment is over, will Vlad still retain his humanity or will he become something more monstrous?</p>
+
+        <!-- Display images from the 'Chimera' directory with names and descriptions -->
+        <div id="chimera-images"></div>
+
+        <!-- Link to the PDF file -->
+        <div id="chimera-pdf">
+            <embed src="Chimera.pdf" type="application/pdf" width="80%" height="500px" />
+        </div>
+    </section>
+
+    <section id="the-conjuror">
+        <h2>The Conjuror</h2>
+        <p>The Conjuror was the first complex story that I have written, and its premise was what would happen if someone gained the ability that everything they drew became real. I plan to revisit this story and turn it into a novel as some of my ideas cannot translate to a static visual format. Also, reading it again, I definitely need to make some scenes/dialogue less corny.</p>
+
+        <!-- Display images from the 'conjuror' directory in order 1a, 1b, 2, 3, 4, 5, 6, etc. -->
+        <div id="conjuror-images"></div>
+    </section>
+
+    <section id="psychopomp">
+        <h2>Psychopomp</h2>
+        <p>Psychopomp is a story of the day-to-day life of a grim reaper who acts as a therapist for the recently deceased, helping them move on to their respected afterlife, all while still processing her own death.</p>
+
+        <!-- Link to the PDF file -->
+        <embed src="Psychopomp.pdf" type="application/pdf" width="80%" height="500px" />
+    </section>
+
+    <section id="shadow">
+        <h2>Shadow</h2>
+        <p>Shadow is the story of Bryan Cohen, a societal reject who only has one friend, his shadow; however, one day his shadow talks back.</p>
+
+        <!-- Link to the PDF file -->
+        <embed src="Shadow.pdf" type="application/pdf" width="80%" height="500px" />
+    </section>
+
+    <!-- JavaScript to toggle the visibility of sections -->
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show the selected section
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Load and display unique images for The Conjuror section
+        document.addEventListener('DOMContentLoaded', function() {
+            var imageDirectory = 'conjuror/';
+            var conjurorImagesDiv = document.getElementById('conjuror-images');
+
+            fetch(imageDirectory)
+                .then(response => response.text())
+                .then(data => {
+                    var images = data.match(/\b\d+[ab]?\.JPG\b/g);
+
+                    if (images) {
+                        // Use a Set to store unique images
+                        var uniqueImages = new Set(images);
+
+                        // Convert Set back to an array
+                        uniqueImages = Array.from(uniqueImages);
+
+                        uniqueImages.sort(naturalSort).forEach(image => {
+                            var imgElement = document.createElement('img');
+                            imgElement.src = imageDirectory + image;
+                            imgElement.alt = 'Conjuror Image';
+                            conjurorImagesDiv.appendChild(imgElement);
+                        });
+                    }
+                });
+        });
+
+        // Load and display all images for Chimera section with descriptions
+        document.addEventListener('DOMContentLoaded', function() {
+            var chimeraImageDirectory = 'Chimera/';
+            var chimeraImagesDiv = document.getElementById('chimera-images');
+            
+            // Map descriptions to image filenames
+            var imageDescriptions = {
+                'Rogue.JPG': 'Rogue: ???',
+                'Eren.JPG': 'Eren: Mosquito',
+                'Ray.JPG': 'Ray: Stingray',
+                'Ōmukade.JPG': 'Ōmukade: Centipede',
+                'Leizi.JPG': 'Leizi: Electric Eel/Jellyfish',
+                'Horus.JPG': 'Horus: Falcon',
+                'Minos.JPG': 'Minos: Bull',
+                'Adoro.JPG': 'Adoro: Marlin/Swordfish',
+                'Puk.JPG': 'Puk: Porcupine',
+                'Fenrir.JPG': 'Fenrir: Wolf',
+                'Skinwalker.JPG': 'Skinwalker: Everything',
+                'Ix.PNG': 'Ix: Jaguar',
+                'Arkheilos.JPG': 'Arkheilos: Shark',
+                'Shane_Laurence_Kelly.JPG': 'Shane Laurence Kelly: Squid',
+                'Apophis.JPG': 'Apophis: Pit Viper',
+                'Karkinos.JPG': 'Karkinos: Crab',
+                'Vlad_Petros.JPG': 'Vlad Petros: Bat'
+            };
+
+            fetch(chimeraImageDirectory)
+                .then(response => response.text())
+                .then(data => {
+                    var chimeraImages = data.match(/\b\w+\.(JPG|PNG)\b/g);
+
+                    if (chimeraImages) {
+                        // Use a Set to store unique images
+                        var uniqueChimeraImages = new Set(chimeraImages);
+
+                        // Convert Set back to an array
+                        uniqueChimeraImages = Array.from(uniqueChimeraImages);
+
+                        uniqueChimeraImages.forEach(image => {
+                            var imgElement = document.createElement('img');
+                            imgElement.src = chimeraImageDirectory + image;
+                            imgElement.alt = 'Chimera Image';
+
+                            var pElement = document.createElement('p');
+                            pElement.textContent = imageDescriptions[image];
+
+                            chimeraImagesDiv.appendChild(imgElement);
+                            chimeraImagesDiv.appendChild(pElement);
+                        });
+                    }
+                });
+        });
+
+        // Natural sort function to handle alphanumeric sorting
+        function naturalSort(a, b) {
+            var ax = [], bx = [];
+
+            a.replace(/(\d+)|(\D+)/g, function(_, $1, $2) { ax.push([$1 || Infinity, $2 || ""]) });
+            b.replace(/(\d+)|(\D+)/g, function(_, $1, $2) { bx.push([$1 || Infinity, $2 || ""]) });
+
+            while (ax.length && bx.length) {
+                var an = ax.shift();
+                var bn = bx.shift();
+                var nn = (an[0] - bn[0]) || an[1].localeCompare(bn[1]);
+                if (nn) return nn;
+            }
+
+            return ax.length - bx.length;
+        }
+    </script>
+</body>
+</html>
+
